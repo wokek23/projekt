@@ -1,8 +1,8 @@
 <nav>
-    <a href="index.php" class="logo">
-        <img src="img/logo.png" alt="logo">
-    </a>
     <ul>
+        <a href="index.php" class="logo">
+            <img src="img/logo.png" alt="logo">
+        </a>
         <!-- Gdy niezalogowany -->
         <?php if (!isset($_SESSION['logged_in'])): ?>
         <li><a href="login.php">Zaloguj</a></li>
