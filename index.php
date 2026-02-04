@@ -1,8 +1,60 @@
-<?php include 'includes/header.php'; ?>
-    <?php include 'includes/navigation.php'; ?>
-    <h1 class="mar">Witaj na stronie głównej</h1>
+<?php
+include 'includes/header.php';
+#include 'includes/checkSession.php';
+include 'includes/connect.php';
+?>
+  <link rel="stylesheet" href="css/index.css">
 
-    <p><a href="login.php">Logowanie</p>
-    <p><a href="register.php">Rejestracja</p>
+  <div class="slider">
+    <div class="slides">
+      <img src="img/placeholder.png" class="slide">
+      <img src="img/placeholder.png" class="slide">
+      <img src="img/placeholder.png" class="slide">
+    </div>
+  </div>
 
+  <section class="movies">
+    <div class="movie">
+      <img src="img/filmimg.png" alt="Placeholder">
+      <div class="movie-info">
+        <h3>Nazwa filmu</h3>
+        <p>Opis filmu</p>
+      </div>
+    </div>
+
+    <div class="movie">
+      <img src="img/filmimg.png" alt="Placeholder">
+      <div class="movie-info">
+        <h3>Nazwa filmu</h3>
+        <p>Opis filmu</p>
+      </div>
+    </div>
+
+    <div class="movie">
+      <img src="img/filmimg.png" alt="Placeholder">
+      <div class="movie-info">
+        <h3>Nazwa filmu</h3>
+        <p>Opis filmu</p>
+      </div>
+    </div>
+
+    <div class="movie">
+      <img src="img/filmimg.png" alt="Placeholder">
+      <div class="movie-info">
+        <h3>Nazwa filmu</h3>
+        <p>Opis filmu</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const slides = document.querySelector('.slides');
+    const slideCount = document.querySelectorAll('.slide').length;
+
+    let index = 0;
+
+    setInterval(() => {
+      index = (index + 1) % slideCount;
+      slides.style.transform = `translateX(-${index * 100}%)`; }, 3000);
+  </script>
 <?php include 'includes/footer.php'; ?>
