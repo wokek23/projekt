@@ -1,10 +1,10 @@
 <?php
 include 'includes/header.php';
-#include 'includes/checkSession.php';
 include 'includes/connect.php';
 ?>
-  <link rel="stylesheet" href="css/index.css">
 
+  <?php include 'includes/navigation.php'; ?>
+  
   <div class="slider">
     <div class="slides">
       <img src="img/placeholder.png" class="slide">
