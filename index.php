@@ -1,50 +1,55 @@
 <?php
-include 'includes/header.php';
-include 'includes/connect.php';
+  include 'includes/connect.php';
+  session_start();
 ?>
 
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja strona</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
   <?php include 'includes/navigation.php'; ?>
   
   <div class="slider">
     <div class="slides">
-      <img src="img/placeholder.png" class="slide">
-      <img src="img/placeholder.png" class="slide">
-      <img src="img/placeholder.png" class="slide">
+      <?php
+        include 'includes/connect.php';
+        $querry = "SELECT img_url FROM movies ORDER BY RAND() LIMIT 5";
+        $result = $conn->query($querry);
+
+        if ($result->num_rows > 0) {
+          foreach ($result as $row) {
+            echo "<img src='" 
+                 . (isset($row['img_url']) ? htmlspecialchars($row['img_url']) : 'img/placeholder.png') 
+                 . "' class='slide'>";
+          }
+        }
+      ?>
     </div>
   </div>
 
   <section class="movies">
-    <div class="movie">
-      <img src="img/filmimg.png" alt="Placeholder">
-      <div class="movie-info">
-        <h3>Nazwa filmu</h3>
-        <p>Opis filmu</p>
-      </div>
-    </div>
+    <?php
+      $querry = "SELECT title, description, director, img_url FROM movies ORDER BY RAND() LIMIT 5";
+      $result = $conn->query($querry);
 
-    <div class="movie">
-      <img src="img/filmimg.png" alt="Placeholder">
-      <div class="movie-info">
-        <h3>Nazwa filmu</h3>
-        <p>Opis filmu</p>
-      </div>
-    </div>
-
-    <div class="movie">
-      <img src="img/filmimg.png" alt="Placeholder">
-      <div class="movie-info">
-        <h3>Nazwa filmu</h3>
-        <p>Opis filmu</p>
-      </div>
-    </div>
-
-    <div class="movie">
-      <img src="img/filmimg.png" alt="Placeholder">
-      <div class="movie-info">
-        <h3>Nazwa filmu</h3>
-        <p>Opis filmu</p>
-      </div>
-    </div>
+      if ($result->num_rows > 0) {
+        foreach ($result as $row) {
+          echo "<div class='movie'>
+                  <img src='" 
+                  . (isset($row['img_url']) ? htmlspecialchars($row['img_url']) : 'img/placeholder.png') . "' alt='Placeholder'>
+                  <div class='movie-info'>
+                    <h3>" . htmlspecialchars($row['title']) . "</h3>
+                    <p>" . htmlspecialchars($row['description']) . "</p>
+                  </div>
+                </div>";
+        }
+      }
+    ?>
   </section>
 
   <script>

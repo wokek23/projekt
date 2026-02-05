@@ -1,8 +1,9 @@
 <nav>
     <ul>
-        <a href="index.php" class="logo">
-            <img src="img/logo.png" alt="logo">
-        </a>
+        <li><a href="movies.php">Filmy</a></li>
+        <li><a href="schedule.php">Plan kina</a></li>
+        <li><a href="buy.php">Kup bilet</a></li>
+        
         <!-- Gdy niezalogowany -->
         <?php if (!isset($_SESSION['logged_in'])): ?>
         <li><a href="login.php">Zaloguj</a></li>
