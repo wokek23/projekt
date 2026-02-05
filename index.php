@@ -18,8 +18,8 @@
     <div class="slides">
       <?php
         include 'includes/connect.php';
-        $querry = "SELECT img_url FROM movies ORDER BY RAND() LIMIT 5";
-        $result = $conn->query($querry);
+        $query = "SELECT img_url FROM movies ORDER BY RAND() LIMIT 5";
+        $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
           foreach ($result as $row) {
@@ -34,8 +34,8 @@
 
   <section class="movies">
     <?php
-      $querry = "SELECT title, description, director, img_url FROM movies ORDER BY RAND() LIMIT 5";
-      $result = $conn->query($querry);
+      $query = "SELECT title, description, director, img_url FROM movies ORDER BY RAND() LIMIT 5";
+      $result = $conn->query($query);
 
       if ($result->num_rows > 0) {
         foreach ($result as $row) {
