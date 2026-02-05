@@ -1,8 +1,3 @@
-<?php
-    include 'connect.php';
-    session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -12,3 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <?php include 'includes/navigation.php'; ?>
+
+<?php include 'includes/footer.php'; ?>
