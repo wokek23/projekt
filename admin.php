@@ -1,8 +1,6 @@
 <?php 
 include 'includes/checkSession.php';
 include 'includes/connect.php';
-session_start();
-
 
 if($_SESSION['is_admin'] != 1){
     header("Location: index.php");
@@ -61,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moja strona</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user.css">
 </head>
 <body>
     <?php include 'includes/navigation.php'; ?>
@@ -70,10 +69,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
     
     <div class="mar-t">
         <?php
-            $query = "SELECT id, username, email, registration_date FROM users;";
+            $query = "SELECT id, username, email, registration_date, is_admin FROM users;";
             $result = $conn->query($query);
 
             if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
+                if (isset($_GET["action"]) == "changeAdmin") {
+                    $query = "SELECT is_admin FROM users WHERE id = " . $_GET["id"] . ";";
+                    $res = $conn->query($query);
+                    $row = $res->fetch_assoc();
+                    $newAdminValue = ($row['is_admin'] == 1) ? 0 : 1;
+
+                    $query = "UPDATE `users` SET `is_admin` = " . $newAdminValue . " WHERE `users`.`id` = " . $_GET["id"] . ";";
+                    $result = $conn->query($query);
+
+                    return;
+                }
                 echo "
                 <br><br><h2 class='mar'>Edytuj użytkownika</h2>
                 <form method='POST'>
@@ -95,45 +105,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
         ?>
     </div>
 
-    <br><br><h2 class="mar-t">Lista użytkowników</h2>
-    <table class="mar">
-        <tr>
-            <th>Nazwa</th>
-            <th>Email</th>
-            <th>Utworzono</th>
-            <th width="450px" >Akcje</th>
-        </tr>
-            <?php
-            foreach ($result as $r) {
-                echo "<tr>
-                <td>" . $r['username'] . "</td>
-                <td>" . $r['email'] . "</td>
-                <td>" . $r['registration_date'] . "</td>
-                <td class='mar-t'>";
-                    if ($_SESSION['username'] == $r['username']) {
-                        echo "<form method='GET'>
-                            <input type='hidden' name='id' value='" . $r['id'] . "'>
-                            <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-                            <button type='submit' name='action' value='changeMail'>Zmień email</button>
-                            <button type='submit' name='action' value='changePass'>Zmień hasło</button>
-                        </form>";
-                    } else {
-                        echo "<form method='GET'>
-                            <input type='hidden' name='id' value='" . $r['id'] . "'>
-                            <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-                            <button type='submit' name='action' value='changeMail'>Zmień email</button>
-                            <button type='submit' name='action' value='changePass'>Zmień hasło</button>
-                        </form>";
-                        
-                        echo "<form method='POST' style='margin-top: 5px;'>
-                            <input type='hidden' name='id' value='" . $r['id'] . "'>
-                            <button type='submit' name='action' value='remove' class='warn-btn'>Usuń konto</button>
-                        </form>";
-                    }
-                echo "</td>
-                <tr>";
-            }
-            ?>
-        </tr>
-    </table>
+    <div class="box center">
+        <h2 class="center-text">Lista użytkowników</h2>
+        <table>
+            <tr>
+                <th>Nazwa</th>
+                <th>Email</th>
+                <th>Utworzono</th>
+                <th>Administrator</th>
+                <th width="450px" >Akcje</th>
+            </tr>
+                <?php
+                foreach ($result as $r) {
+                    echo "<tr>
+                    <td>" . $r['username'] . "</td>
+                    <td>" . $r['email'] . "</td>
+                    <td>" . $r['registration_date'] . "</td>
+                    <td class='center-text'>" . ($r['is_admin'] == 1 ? 'Tak' : 'Nie') . "</td>
+                    <td class='mar-t'>";
+                        if ($_SESSION['username'] == $r['username']) {
+                            echo "<form method='GET'>
+                                <input type='hidden' name='id' value='" . $r['id'] . "'>
+                                <button type='submit' name='action' value='rename'>Zmień nazwę</button>
+                                <button type='submit' name='action' value='changeMail'>Zmień email</button>
+                                <button type='submit' name='action' value='changePass'>Zmień hasło</button>
+                                <button type='submit' name='action' value='changeAdmin'>Zmień admina</button>
+                            </form>";
+                        } else {
+                            echo "<form method='GET'>
+                                <input type='hidden' name='id' value='" . $r['id'] . "'>
+                                <button type='submit' name='action' value='rename'>Zmień nazwę</button>
+                                <button type='submit' name='action' value='changeMail'>Zmień email</button>
+                                <button type='submit' name='action' value='changePass'>Zmień hasło</button>
+                            </form>";
+                            
+                            echo "<form method='POST' style='margin-top: 5px;'>
+                                <input type='hidden' name='id' value='" . $r['id'] . "'>
+                                <button type='submit' name='action' value='remove'>Usuń konto</button>
+                            </form>";
+                        }
+                    echo "</td>
+                    <tr>";
+                }
+                ?>
+            </tr>
+        </table>
+    </div>
 <?php include 'includes/footer.php'; ?>
