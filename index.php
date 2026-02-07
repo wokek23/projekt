@@ -19,13 +19,13 @@
     <div class="slides">
       <?php
         include 'includes/connect.php';
-        $query = "SELECT img_url FROM movies ORDER BY RAND() LIMIT 5";
+        $query = "SELECT baner_img FROM movies ORDER BY RAND() LIMIT 5";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
           foreach ($result as $row) {
             echo "<img src='" 
-                 . (isset($row['img_url']) ? htmlspecialchars($row['img_url']) : 'img/placeholder.png') 
+                 . (isset($row['baner_img']) ? htmlspecialchars($row['baner_img']) : 'img/placeholder.png') 
                  . "' class='slide'>";
           }
         }
