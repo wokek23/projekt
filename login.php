@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja strona</title>
+    <title>Logowanie</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -47,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1 class="cent-text">Logowanie</h1><br>
     <form class="cent-form" action="" method="POST">
         <label for="username">Nazwa Użytkownika:</label>
-        <input type="text" name="username" id="username" required></input>
+        <input require type="text" name="username" id="username" required></input>
         <label for="password">Hasło:</label>
-        <input type="password" name="password" id="password" required></input>
+        <input require type="password" name="password" id="password" required></input>
         <input type="submit" value="Zaloguj">
     </form>
     <?php

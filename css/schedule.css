@@ -1,0 +1,41 @@
+.mar-t {
+    margin-top: 20px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.day {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 800px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.movie_img {
+    width: 100px;
+    height: auto;
+    float: left;
+    margin-right: 15px;
+}
+
+.buy-btn {
+    border: none;
+    padding: 5px 35px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 5px;
+}
