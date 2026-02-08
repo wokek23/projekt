@@ -63,10 +63,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
 </head>
 <body>
     <?php include 'includes/navigation.php'; ?>
-    <h1 class="mar-t">Panel Administratora</h1>
-    <?php //if (isset($returnMsg)) { echo "<p><b><i>" . $returnMsg . "</i></b><p/>"; } ?>
-    <br><p class="mar-t">Co tam u ciebie <?php echo $_SESSION['username']; ?>?</p>
-    
+    <div class="box center center-text mar-t">
+        <h1>Panel Administratora</h1>
+        <ul class="list-none">
+            <li><a href="#user-list">Zarządzanie użytkownikami</a></li>
+            <li><a href="#tickets">Zarządzanie biletami</a></li>
+            <li><a href="#movies">Zarządzanie filmami</a></li>
+        </ul>
+        <?php //if (isset($returnMsg)) { echo "<p><b><i>" . $returnMsg . "</i></b><p/>"; } ?>
+    </div>
+
     <div class="mar-t">
         <?php
             $query = "SELECT id, username, email, registration_date, is_admin FROM users;";
@@ -105,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
         ?>
     </div>
 
-    <div class="box center">
+    <div id="user-list" class="box center">
         <h2 class="center-text">Lista użytkowników</h2>
         <table>
             <tr>
@@ -113,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
                 <th>Email</th>
                 <th>Utworzono</th>
                 <th>Administrator</th>
-                <th width="450px" >Akcje</th>
+                <th>Akcje</th>
             </tr>
                 <?php
                 foreach ($result as $r) {
@@ -150,5 +156,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
                 ?>
             </tr>
         </table>
+    </div>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["change-paid"], $_POST["ticket-id"])) {
+        $ticketId = (int) $_POST["ticket-id"];
+        $newPaid = $_POST["change-paid"] == "1" ? 1 : 0;
+
+        $conn->query("UPDATE tickets SET paid = $newPaid WHERE id = $ticketId");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete-ticket"])) {
+        $ticketId = (int) $_POST["delete-ticket"];
+        $conn->query("DELETE FROM tickets WHERE id = $ticketId");
+    }
+
+    $ticketResult = null;
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["ticket-code"])) {
+        $code = mysqli_real_escape_string($conn, $_POST["ticket-code"]);
+
+        $ticketResult = $conn->query("
+            SELECT t.id, u.username, u.email, t.code, t.price, t.paid,
+                t.creation_date, t.expiration_date, s.date, m.title
+            FROM tickets t
+            JOIN users u ON u.id = t.user_id
+            JOIN schedule s ON s.id = t.schedule_id
+            JOIN movies m ON m.id = s.movie_id
+            WHERE t.code = '$code'
+        ");
+    }
+    ?>
+
+
+    <div id="tickets" class="box center mar-t">
+        <h2 class="center-text">Zarządzanie biletami</h2>
+
+        <form method="POST">
+            <label>Kod biletu:</label>
+            <input type="text" name="ticket-code" minlength="8" maxlength="8" required>
+            <button type="submit">Pokaż bilet</button>
+        </form>
+
+        <?php if ($ticketResult && $ticketResult->num_rows === 1): 
+        $r = $ticketResult->fetch_assoc(); ?>
+
+        <table style="margin-top:20px;">
+        <tr>
+            <th>Kod</th><th>Użytkownik</th><th>Email</th><th>Film</th>
+            <th>Data seansu</th><th>Cena</th><th>Status</th>
+        </tr>
+        <tr>
+            <td><?= $r['code'] ?></td>
+            <td><?= $r['username'] ?></td>
+            <td><?= $r['email'] ?></td>
+            <td><?= $r['title'] ?></td>
+            <td><?= $r['date'] ?></td>
+            <td><?= $r['price'] ?> zł</td>
+            <td><?= $r['paid'] ? "Opłacony" : "Nieopłacony" ?></td>
+        </tr>
+        </table>
+
+        <form method="POST" style="margin-top:15px;">
+            <input type="hidden" name="ticket-id" value="<?= $r['id'] ?>">
+            <input type="hidden" name="ticket-code" value="<?= $r['code'] ?>">
+            <button name="change-paid" value="<?= $r['paid'] ? 0 : 1 ?>">
+                <?= $r['paid'] ? "Oznacz jako nieopłacony" : "Oznacz jako opłacony" ?>
+            </button>
+            <button name="delete-ticket" value="<?= $r['id'] ?>">
+                Usuń bilet
+            </button>
+        </form>
+
+        <?php elseif ($ticketResult): ?>
+        <p><b>Nie znaleziono biletu</b></p>
+        <?php endif; ?>
+    </div>
+
+
+    <div id="movies" class="box center mar-t">
+        <h2 class="center-text">Zarządzanie filmami</h2>
+        <p>Wkrótce...</p>
     </div>
 <?php include 'includes/footer.php'; ?>

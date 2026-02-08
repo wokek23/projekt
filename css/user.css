@@ -19,6 +19,17 @@
     max-width: 1000px;
 }
 
+.list-none {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.list-none a {
+    text-decoration: none;
+    color: #007BFF;
+    margin-top: 0px;
+}
+
 table, tr, th, td {
     border: 1px solid black;
     border-collapse: collapse;

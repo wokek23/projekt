@@ -5,7 +5,6 @@
     <ul>
         <li><a href="movies.php">Filmy</a></li>
         <li><a href="schedule.php">Plan kina</a></li>
-        <li><a href="buy.php">Kup bilet</a></li>
         
         <!-- Gdy niezalogowany -->
         <?php if (!isset($_SESSION['logged_in'])): ?>
