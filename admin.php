@@ -272,7 +272,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <th>Kod</th><th>Użytkownik</th><th>Email</th><th>Film</th>
             <th>Data seansu</th><th>Cena</th><th>Status</th>
         </tr>
-        <tr>
+        <tr class='center-text'>
             <td><?= $r['code'] ?></td>
             <td><?= $r['username'] ?></td>
             <td><?= $r['email'] ?></td>

@@ -66,57 +66,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
     </div>
 
     
-    <div class="mar-t">
-        <?php
-            $query = "SELECT id, username, email, registration_date FROM users WHERE id = {$_SESSION['user_id']};";
-            $result = $conn->query($query);
+    <?php
+    $query = "SELECT id, username, email, registration_date FROM users WHERE id = {$_SESSION['user_id']};";
+    $result = $conn->query($query);
+    $r = $result->fetch_assoc();
 
-            if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
-                echo "
-                <br><br><h2 class='mar'>Edytuj dane</h2>
-                <form method='POST'>
-                    <input type='hidden' name='id' value='" . $_GET["id"] . "'>";
-
-                    if ($_GET["action"] == "changeMail") {
-                        echo "<input type='email' name='new'>";
-                        echo "<button type='submit' name='action' value='changeMail'>Zmień email</button>";
-                    } elseif ($_GET["action"] == "changePass") {
-                        echo "<input type='password' name='new'>";
-                        echo "<button type='submit' name='action' value='changePass'>Zmień hasło</button>";
-                    } else {
-                        echo "<input type='text' name='new'>";
-                        echo "<button type='submit' name='action' value='rename'>Zmień nazwę</button>";
-                    }
-                    
-                echo "</form>";
-            }
-        ?>
-    </div>
+    $ticketResult = $conn->query("
+                SELECT t.code, t.price, t.paid, t.expiration_date, s.date, s.hall_id, m.title
+                FROM tickets t
+                JOIN users u ON u.id = t.user_id
+                JOIN schedule s ON s.id = t.schedule_id
+                JOIN movies m ON m.id = s.movie_id
+                WHERE u.id = '{$_SESSION['user_id']}';
+                ");
+    ?>
 
     <div id="dane" class="box center mar-t">
         <h2 class="center-text">Twoje dane</h2>
-        Nazwa użytkownika: <?php echo $_SESSION['username']; 
-        foreach ($result as $r) {
-            echo "<form method='GET'>
-                <input type='hidden' name='id' value='" . $r['id'] . "'>
-                <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-                <button type='submit' name='action' value='changePass'>Zmień hasło</button>
-            </form>";
-        }
-        ?><br>
-        Email: <?php
+        <p>Nazwa użytkownika: 
+        <?php 
+        echo $_SESSION['username']; 
+        echo "<form method='GET'>
+            <input type='hidden' name='id' value='" . $r['id'] . "'>
+            <button type='submit' name='action' value='rename'>Zmień nazwę</button>
+            <button type='submit' name='action' value='changePass'>Zmień hasło</button>
+        </form>";
+        ?>
+        </p><br>
+
+        <p>Email: 
+            <?php
             echo $r['email'];
-            foreach ($result as $r) {
-                echo"<form method='GET'>
-                        <input type='hidden' name='id' value='" . $r['id'] . "'>
-                        <button type='submit' name='action' value='changeMail'>Zmień email</button>
-                    </form>";
-            }
+            echo"<form method='GET'>
+                <input type='hidden' name='id' value='" . $r['id'] . "'>
+                <button type='submit' name='action' value='changeMail'>Zmień email</button>
+            </form>";
             ?>
+        </p>
     </div>
 
     <div id="tickets" class="box center mar-t">
         <h2 class="center-text">Twoje bilety</h2>
+        
+        <?php 
+        if ($ticketResult && $ticketResult->num_rows > 0) {
+            echo "<table>
+                <tr>
+                    <th>Kod</th>
+                    <th>Film</th>
+                    <th>Data seansu</th>
+                    <th>Sala</th>
+                    <th>Wygasa</th>
+                    <th>Cena</th>
+                    <th>Status</th>
+                </tr>";
+            
+            foreach ($ticketResult as $t) {
+                $seans_date = date('Y-m-d H:i', strtotime($t['date']));
+                $expiration_date = date('Y-m-d', strtotime($t['expiration_date']));
+                
+                $is_expired = (strtotime($t['expiration_date']) < time());
+                $payment_status = $t['paid'] ? "Opłacony" : "Nieopłacony";
+
+                echo "<tr class='center-text'>
+                    <td>" . htmlspecialchars($t['code']) . "</td>
+                    <td>" . htmlspecialchars($t['title']) . "</td>
+                    <td>" . htmlspecialchars($seans_date) . "</td>
+                    <td>" . htmlspecialchars($t['hall_id']) . "</td>
+                    <td>" . htmlspecialchars($expiration_date) . ($is_expired ? " (WYGASŁ)" : "") . "</td>
+                    <td>" . htmlspecialchars($t['price']) . " zł</td>
+                    <td>" . htmlspecialchars($payment_status) . "</td>
+                </tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p class='center-text' style='color: red;'><b>Nie posiadasz żadnych biletów</b></p>";
+        }
+        ?>
     </div>
 
 <?php include 'includes/footer.php'; ?>
