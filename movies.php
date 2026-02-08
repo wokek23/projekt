@@ -20,7 +20,7 @@
     <section class="movies">
       <h1>All movies</h1>
       <?php
-        $query = "SELECT title, description, director, img_url FROM movies ORDER BY title";
+        $query = "SELECT title, description, director, img_url FROM movies WHERE visible = 1 ORDER BY title";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
@@ -41,7 +41,7 @@
     <section class="movies">
       <h1>Top Rated Movies</h1>
       <?php
-        $query = "SELECT id, title, description, director, img_url FROM movies ORDER BY title"; #"SELECT m.title, m.description, m.director, m.img_url FROM movies AS m INNER JOIN rating AS r ON r.movie_id = m.id ORDER BY rate DESC";
+        $query = "SELECT id, title, description, director, img_url FROM movies WHERE visible = 1 ORDER BY title"; #"SELECT m.title, m.description, m.director, m.img_url FROM movies AS m INNER JOIN rating AS r ON r.movie_id = m.id ORDER BY rate DESC";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
