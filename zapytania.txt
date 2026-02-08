@@ -1,3 +1,0 @@
-SELECT id, title, description, director FROM movies
-SELECT * FROM movies ORDER BY title
-SELECT m.* FROM movies AS m INNER JOIN rating AS r ON r.movie_id = m.id ORDER BY rate;
