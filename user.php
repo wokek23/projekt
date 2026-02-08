@@ -56,27 +56,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
 </head>
 <body>
     <?php include 'includes/navigation.php'; ?>
-    <h1 class="mar-t">Panel Użytkownika</h1>
-    <?php //if (isset($returnMsg)) { echo "<p><b><i>" . $returnMsg . "</i></b><p/>"; } ?>
-    <br><p class="mar-t">Co tam u ciebie <?php echo $_SESSION['username']; ?>?</p>
+    <div class="box center center-text mar-t">
+        <h1>Panel Użytkownika</h1>
+        <ul class="list-none">
+            <li><a href="#dane">Twoje dane</a></li>
+            <li><a href="#tickets">Twoje bilety</a></li>
+        </ul>
+        <?php //if (isset($returnMsg)) { echo "<p><b><i>" . $returnMsg . "</i></b><p/>"; } ?>
+    </div>
+
     
     <div class="mar-t">
         <?php
-            $query = "SELECT id, username, email, registration_date, is_admin FROM users WHERE id = {$_SESSION['user_id']};";
+            $query = "SELECT id, username, email, registration_date FROM users WHERE id = {$_SESSION['user_id']};";
             $result = $conn->query($query);
 
             if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
-                if (isset($_GET["action"]) == "changeAdmin") {
-                    $query = "SELECT is_admin FROM users WHERE id = " . $_GET["id"] . ";";
-                    $res = $conn->query($query);
-                    $row = $res->fetch_assoc();
-                    $newAdminValue = ($row['is_admin'] == 1) ? 0 : 1;
-
-                    $query = "UPDATE `users` SET `is_admin` = " . $newAdminValue . " WHERE `users`.`id` = " . $_GET["id"] . ";";
-                    $result = $conn->query($query);
-
-                    return;
-                }
                 echo "
                 <br><br><h2 class='mar'>Edytuj dane</h2>
                 <form method='POST'>
@@ -98,32 +93,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
         ?>
     </div>
 
-    <div class="box center">
+    <div id="dane" class="box center mar-t">
         <h2 class="center-text">Twoje dane</h2>
-        Nazwa użytkownika: <?php echo $_SESSION['username']; ?><br>
+        Nazwa użytkownika: <?php echo $_SESSION['username']; 
+        foreach ($result as $r) {
+            echo "<form method='GET'>
+                <input type='hidden' name='id' value='" . $r['id'] . "'>
+                <button type='submit' name='action' value='rename'>Zmień nazwę</button>
+                <button type='submit' name='action' value='changePass'>Zmień hasło</button>
+            </form>";
+        }
+        ?><br>
         Email: <?php
-            $row = $result->fetch_assoc();
-            echo $row['email'];
-            ?></tr>
-                <?php
-                foreach ($result as $r) {
-                    echo "<tr>
-                    <td>" . $r['username'] . "</td>
-                    <td>" . $r['email'] . "</td>
-                    <td>" . $r['registration_date'] . "</td>
-                    <td class='center-text'>" . ($r['is_admin'] == 1 ? 'Tak' : 'Nie') . "</td>
-                    <td class='mar-t'>
-                        <form method='GET'>
-                            <input type='hidden' name='id' value='" . $r['id'] . "'>
-                            <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-                            <button type='submit' name='action' value='changeMail'>Zmień email</button>
-                            <button type='submit' name='action' value='changePass'>Zmień hasło</button>
-                        </form>
-                    </td>
-                <tr>";
-                }
-                ?>
-            </tr>
-        </table>
+            echo $r['email'];
+            foreach ($result as $r) {
+                echo"<form method='GET'>
+                        <input type='hidden' name='id' value='" . $r['id'] . "'>
+                        <button type='submit' name='action' value='changeMail'>Zmień email</button>
+                    </form>";
+            }
+            ?>
     </div>
+
+    <div id="tickets" class="box center mar-t">
+        <h2 class="center-text">Twoje bilety</h2>
+    </div>
+
 <?php include 'includes/footer.php'; ?>

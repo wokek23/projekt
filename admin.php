@@ -235,6 +235,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
 
     <div id="movies" class="box center mar-t">
         <h2 class="center-text">Zarządzanie filmami</h2>
-        <p>Wkrótce...</p>
+        <?php
+        $query = "SELECT * FROM movies";
+        $result = $conn->query($query);
+        foreach ($result as $r) {
+            $sum = ($r['visible'] ? "" : "<i>") . $r['title'] . " - " . $r['director'] . ($r['visible'] ? "" : "</i>");
+            echo "<details>
+                <summary>" . $sum . "</summary>
+                <p><b>Opis:</b> " . $r['description'] . "</p>
+                <p><b>Długość:</b> " . $r['lenght'] . " min</p>
+                <p><b>Cena:</b> " . $r['price'] . " zł</p>
+
+                <form style='margin-bottom: 10px;' method='POST'>
+                    <button type='submit' name='toggle-visibility' value='" . $r['id'] . "'>" . ($r['visible'] ? "Ukryj film" : "Pokaż film") . "</button>
+                    <button type='submit' name='delete-movie' value='" . $r['id'] . "'>Usuń film</button>
+                </form>
+            </details>";
+        }
+        ?>
     </div>
 <?php include 'includes/footer.php'; ?>
