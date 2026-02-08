@@ -19,7 +19,7 @@
     <div class="slides">
       <?php
         include 'includes/connect.php';
-        $query = "SELECT baner_img FROM movies ORDER BY RAND() LIMIT 5";
+        $query = "SELECT baner_img FROM movies WHERE visible = 1 ORDER BY RAND() LIMIT 5";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
@@ -35,7 +35,7 @@
 
   <section class="movies">
     <?php
-    $query = "SELECT id, title, description, director, img_url FROM movies ORDER BY RAND() LIMIT 5"; #"SELECT m.title, m.description, m.director, m.img_url FROM movies AS m INNER JOIN rating AS r ON r.movie_id = m.id ORDER BY rate DESC";
+    $query = "SELECT id, title, description, director, img_url FROM movies WHERE visible = 1 ORDER BY RAND() LIMIT 5"; #"SELECT m.title, m.description, m.director, m.img_url FROM movies AS m INNER JOIN rating AS r ON r.movie_id = m.id ORDER BY rate DESC";
     $result = $conn->query($query);
 
     if ($result->num_rows > 0) {
