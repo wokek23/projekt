@@ -47,26 +47,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <?php include 'includes/navigation.php'; ?>
-    <h1 class="cent-text">Rejestracja</h1><br>
-    <?php
-    if($error){
-        echo"<p style='color: red'>$error</p><br>";
-    } else if ($ret) {
-        echo"<p style='color: green'>$ret</p><br>";
-    }
-    ?>
-    <form class="cent-form" action="" method="POST">
-        <label for="email">Email:</label>
-        <input require type="email" name="email" id="email" required></input>
-        <label for="username">Nazwa Użytkownika:</label>
-        <input require type="text" name="username" id="username" required></input>
-        <label for="password">Hasło:</label>
-        <input require type="password" name="password" id="password" required></input>
-        <label for="confirmpasswors">Powtórz Hasło:</label>
-        <input require type="password" name="confirmpassword" id="confirmpassword" required></input>
-        <input type="submit" value="Zarejestruj">
-    </form>
+    <div class="div">
+        <h1 class="cent-text">Rejestracja</h1><br>
+        <?php
+        if($error){
+            echo"<p style='color: red'>$error</p><br>";
+        } else if ($ret) {
+            echo"<p style='color: green'>$ret</p><br>";
+        }
+        ?>
+    
+        <form class="cent-form" action="" method="POST">
+            <label for="email">Email:</label><br>
+            <input class="pole" require type="email" name="email" id="email" required></input><br>
+            <label for="username">Nazwa Użytkownika:</label><br>
+            <input class="pole" require type="text" name="username" id="username" required></input><br>
+            <label for="password">Hasło:</label><br>
+            <input class="pole" require type="password" name="password" id="password" required></input><br>
+            <label for="confirmpasswors">Powtórz Hasło:</label><br>
+            <input class="pole" require type="password" name="confirmpassword" id="confirmpassword" required></input><br>
+            <input class="p-kolor" type="submit" value="Zarejestruj">
+        </form>
+    </div>
 <?php include 'includes/footer.php'; ?>

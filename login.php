@@ -41,20 +41,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <?php include 'includes/navigation.php'; ?>
-    <h1 class="cent-text">Logowanie</h1><br>
-    <form class="cent-form" action="" method="POST">
-        <label for="username">Nazwa Użytkownika:</label>
-        <input require type="text" name="username" id="username" required></input>
-        <label for="password">Hasło:</label>
-        <input require type="password" name="password" id="password" required></input>
-        <input type="submit" value="Zaloguj">
-    </form>
-    <?php
-    if($error){
-        echo"<p class='cent-text' style='color: red'><b>$error</b></p><br>";
-    }
-    ?>
+    <div class="div">
+        <h1 class="cent-text">Logowanie</h1><br>
+        <form class="cent-form" action="" method="POST">
+            <label for="username">Nazwa Użytkownika:</label><br>
+            <input class="pole" require type="text" name="username" id="username" required></input><br>
+            <label for="password">Hasło:</label><br>
+            <input class="pole" type="password" name="password" id="password" required></input><br>
+            <input class="p-kolor" type="submit" value="Zaloguj">
+        </form>
+        <?php
+        if($error){
+            echo"<p class='cent-text' style='color: red'><b>$error</b></p><br>";
+        }
+        ?>
+    </div>
 <?php include 'includes/footer.php'; ?>
+</body>
