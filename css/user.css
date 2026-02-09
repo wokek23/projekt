@@ -24,6 +24,20 @@
     cursor: pointer;
 }
 
+.btn {
+    background-color: #4c8be9; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 3px; 
+    cursor: pointer;
+}
+
+input, select {
+    padding: 3px;
+    border-radius: 4px;
+}
+
 .schedule-item {
     
     margin-bottom: 10px; 

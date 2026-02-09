@@ -88,8 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
         echo $_SESSION['username']; 
         echo "<form method='GET'>
             <input type='hidden' name='id' value='" . $r['id'] . "'>
-            <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-            <button type='submit' name='action' value='changePass'>Zmień hasło</button>
+            <button class='btn' type='submit' name='action' value='rename'>Zmień nazwę</button>
+            <button class='btn' type='submit' name='action' value='changePass'>Zmień hasło</button>
         </form>";
         ?>
         </p><br>
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
             echo $r['email'];
             echo"<form method='GET'>
                 <input type='hidden' name='id' value='" . $r['id'] . "'>
-                <button type='submit' name='action' value='changeMail'>Zmień email</button>
+                <button class='btn' type='submit' name='action' value='changeMail'>Zmień email</button>
             </form>";
             ?>
         </p>

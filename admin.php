@@ -177,13 +177,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     if ($_GET["action"] == "changeMail") {
                         echo "<input type='email' name='new'>";
-                        echo "<button type='submit' name='action' value='changeMail'>Zmień email</button>";
+                        echo "<button class='btn' type='submit' name='action' value='changeMail'>Zmień email</button>";
                     } elseif ($_GET["action"] == "changePass") {
                         echo "<input type='password' name='new'>";
-                        echo "<button type='submit' name='action' value='changePass'>Zmień hasło</button>";
+                        echo "<button class='btn' type='submit' name='action' value='changePass'>Zmień hasło</button>";
                     } else {
                         echo "<input type='text' name='new'>";
-                        echo "<button type='submit' name='action' value='rename'>Zmień nazwę</button>";
+                        echo "<button class='btn' type='submit' name='action' value='rename'>Zmień nazwę</button>";
                     }
                     
                 echo "</form>";
@@ -198,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <th>Nazwa</th>
                 <th>Email</th>
                 <th>Utworzono</th>
-                <th>Administrator</th>
+                <th>Admin</th>
                 <th>Akcje</th>
             </tr>
                 <?php
@@ -212,22 +212,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         if ($_SESSION['username'] == $r['username']) {
                             echo "<form method='GET'>
                                 <input type='hidden' name='id' value='" . $r['id'] . "'>
-                                <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-                                <button type='submit' name='action' value='changeMail'>Zmień email</button>
-                                <button type='submit' name='action' value='changePass'>Zmień hasło</button>
-                                <button type='submit' name='action' value='changeAdmin' class='danger-btn'>Zmień admina</button>
+                                <button class='btn' type='submit' name='action' value='rename'>Zmień nazwę</button>
+                                <button class='btn' type='submit' name='action' value='changeMail'>Zmień email</button>
+                                <button class='btn' type='submit' name='action' value='changePass'>Zmień hasło</button>
+                                <button class='danger-btn' type='submit' name='action' value='changeAdmin'>Zmień admina</button>
                             </form>";
                         } else {
                             echo "<form method='GET'>
                                 <input type='hidden' name='id' value='" . $r['id'] . "'>
-                                <button type='submit' name='action' value='rename'>Zmień nazwę</button>
-                                <button type='submit' name='action' value='changeMail'>Zmień email</button>
-                                <button type='submit' name='action' value='changePass'>Zmień hasło</button>
+                                <button class='btn' type='submit' name='action' value='rename'>Zmień nazwę</button>
+                                <button class='btn' type='submit' name='action' value='changeMail'>Zmień email</button>
+                                <button class='btn' type='submit' name='action' value='changePass'>Zmień hasło</button>
                             </form>";
                             
                             echo "<form method='POST' style='margin-top: 5px;'>
                                 <input type='hidden' name='id' value='" . $r['id'] . "'>
-                                <button type='submit' name='action' value='remove' class='danger-btn'>Usuń konto</button>
+                                <button class='danger-btn' type='submit' name='action' value='remove'>Usuń konto</button>
                             </form>";
                         }
                     echo "</td>
@@ -242,9 +242,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h2 class="center-text">Zarządzanie biletami</h2>
 
         <form method="POST">
-            <label>Kod biletu:</label>
-            <input type="text" name="ticket-code" minlength="8" maxlength="8" required>
-            <button type="submit">Pokaż bilet</button>
+            <label for='ticket-code'>Kod biletu:</label>
+            <input type="text" name="ticket-code" id='ticket-code' minlength="8" maxlength="8" required>
+            <button class='btn' type="submit">Pokaż bilet</button>
         </form>
 
         <?php
@@ -286,7 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="POST" style="margin-top:15px;">
             <input type="hidden" name="ticket-id" value="<?= $r['id'] ?>">
             <input type="hidden" name="ticket-code" value="<?= $r['code'] ?>">
-            <button name="change-paid" value="<?= $r['paid'] ? 0 : 1 ?>">
+            <button class='btn' name="change-paid" value="<?= $r['paid'] ? 0 : 1 ?>">
                 <?= $r['paid'] ? "Oznacz jako nieopłacony" : "Oznacz jako opłacony" ?>
             </button>
             <button name="delete-ticket" value="<?= $r['id'] ?>">
@@ -358,7 +358,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     
                     echo "<form method='POST' style='margin-top: 5px;'>";
                     echo "<input type='hidden' name='delete-schedule' value='" . $screening['schedule_id'] . "'>";
-                    echo "<button type='submit' class='danger-btn'>Usuń seans</button>";
+                    echo "<button class='danger-btn' type='submit'>Usuń seans</button>";
                     echo "</form>";
                     
                     echo "</div>";
@@ -411,7 +411,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <option value='1'>Tak</option>
             </select>
 
-            <button type="submit">Dodaj seans</button>
+            <button class='btn' type="submit">Dodaj seans</button>
         </form>
     </div>
 
@@ -429,8 +429,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <p><b>Cena:</b> " . $r['price'] . " zł</p>
 
                 <form style='margin-bottom: 10px;' method='POST'>
-                    <button type='submit' name='toggle-visibility' value='" . $r['id'] . "'>" . ($r['visible'] ? "Ukryj film" : "Pokaż film") . "</button>
-                    <button type='submit' name='delete-movie' value='" . $r['id'] . "' class='danger-btn'>Usuń film</button>
+                    <button class='btn' type='submit' name='toggle-visibility' value='" . $r['id'] . "'>" . ($r['visible'] ? "Ukryj film" : "Pokaż film") . "</button>
+                    <button class='danger-btn' type='submit' name='delete-movie' value='" . $r['id'] . "'>Usuń film</button>
                 </form>
             </details>";
         }

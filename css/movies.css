@@ -12,15 +12,19 @@ h1 {
   margin-bottom: 30px;
 }
 
+h3 {
+  margin: 0;
+}
+
 .main-content {
   display: flex;
   justify-content: center;
+  width: 100%;
   padding: 30px 80px;
 }
 
 .movies {
-  max-width: 30%;
-  margin:  auto;
+  max-width: 40%;
   padding: 0 20px;
   color: white;
 }
@@ -30,6 +34,7 @@ h1 {
   flex-direction: row;
   align-items: flex-start;
   gap: 20px;
+  width: 100%;
   margin-bottom: 30px;
   border-radius: 12px;
   padding: 16px;
