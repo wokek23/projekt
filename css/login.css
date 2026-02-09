@@ -9,19 +9,22 @@ body {
     align-content: center;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
+    margin-top: 30px;
 }
 .pole{
-    padding: 3px;
+    padding: 5px;
     margin: 5px;
-    border-radius: 3px;
+    margin-bottom: 20px;
+    border-radius: 5px;
 }
 .p-kolor{
     background-color: #4c8be9; 
     color: white; 
     border: none; 
-    padding: 5px 10px; 
+    width: 100px;
+    padding: 10px 15px; 
     border-radius: 3px; 
     cursor: pointer;
-    margin: 7px;
+    margin: 5px;
+    margin-bottom: 20px;
 }
