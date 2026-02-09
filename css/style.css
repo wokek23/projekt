@@ -3,12 +3,12 @@
 }
 
 body {
-  background: linear-gradient(to bottom, rgb(122, 14, 14),black);
+  background-color: black;
   margin: 0;
 }
 
-h4 {
-  margin-bottom: 10px;
+main {
+  background: linear-gradient(to bottom, rgb(150, 89, 54),black);
 }
 
 .slider {
@@ -26,13 +26,14 @@ h4 {
   transition: 0.8s ease-in-out;
 }
 
+
 .slide {
   min-width: 100%;
   object-fit: cover;
 }
 
 .movies {
-  max-width: 800px;
+  max-width: 30%;
   margin:  auto;
   padding: 0 20px;
   color: white;
@@ -46,6 +47,7 @@ h4 {
   margin-bottom: 30px;
   border-radius: 12px;
   padding: 16px;
+  border-bottom: 1px solid #222;
 }
 
 .movie img {
@@ -64,4 +66,40 @@ h4 {
 .movie-info h3 {
   color: white;
   font-size: 30px;
+}
+
+.days {
+  display: flex;
+  margin-left: 15%;
+  margin-right: 15%;
+  gap: 12px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  
+}
+
+.day, .wiecej {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  opacity: 0.6;
+  align-items: center;
+}
+
+.day.active {
+  background: #d67200;
+  opacity: 1;
+}
+
+.day:hover, .wiecej:hover {
+  opacity: 1;
+}
+
+a {
+  text-decoration: none;
+  color: white;
 }
