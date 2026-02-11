@@ -1,4 +1,5 @@
 <?php
+  ini_set('display_errors', 'Off');
   include 'includes/connect.php';
   session_start();
 ?>
