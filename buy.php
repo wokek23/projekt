@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 'Off');
 include 'includes/connect.php';
 session_start();
 
@@ -12,13 +13,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $movie_id = $_POST['movie_id'];
         $day = $_POST['day'];
         
-        $query = "SELECT s.id, s.date, m.title, m.price, h.cols, h.rows, h.additional, h.price
+        $query = "SELECT s.id, s.date, m.title, m.price AS mPri, h.cols, h.rows, h.price AS hPri
                 FROM schedule AS s
                 INNER JOIN movies AS m ON s.movie_id = m.id
                 INNER JOIN halls AS h ON s.hall_id = h.id
                 WHERE s.movie_id = $movie_id AND DATE(s.date) = '$day'";
         
         $result = $conn->query($query);
+
+        echo "<script>
+                const schedule = [";
+                foreach ($result as $s) {
+                    echo "['" . date('H:i', strtotime($s['date'])) . "', " . $s['mPri'] + $s['hPri'] . "],";
+                }
+        echo "]</script>";
     } else {
         header('Location: schedule.php');
         exit;
@@ -50,16 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <select require id="time" name="time">
                 <?php
                 foreach ($result as $row) {
-                    echo "<option value='" . $row['id'] . "'>" . date('H:i', strtotime($row['date'])) . "</option>";
+                    echo "<option onchanged='update()' value='" . $row['id'] . "'>" . date('H:i', strtotime($row['date'])) . "</option>";
                 }
                 ?>
             </select><br><br>
 
             <label for="ticket_adult">Bilet normalny:</label>
-            <input require type="number" id="ticket_adult" name="ticket_adult" min="0" value="1"><br><br>
+            <input onchanged="update()" require type="number" id="ticket_adult" name="ticket_adult" min="0" value="1"><br><br>
 
             <label for="ticket_child">Bilet ulgowy:</label>
-            <input require type="number" id="ticket_child" name="ticket_child" min="0" value="0"><br><br>
+            <input onchanged="update()" require type="number" id="ticket_child" name="ticket_child" min="0" value="0"><br><br>
 
             <button type="submit" class="buy-btn">Kup bilet</button>
         </form>
@@ -68,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             foreach ($result as $row) {
                 echo "<div class='movie_info'>";
                 echo "<h2>" . htmlspecialchars($row['title']) . "</h2>";
-                echo "<p>Cena: " . htmlspecialchars($row['price']) . " zł</p>";
+                echo "<p>Cena: " . htmlspecialchars($row['mPri'] + $row['hPri']) . " zł</p>";
                 echo "<p>Sala: " . htmlspecialchars($row['cols']) . "x" . htmlspecialchars($row['rows']) . "</p>";
                 echo "</div>";
             }
