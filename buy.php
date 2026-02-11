@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 'Off');
 include 'includes/connect.php';
 session_start();
 
@@ -125,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             foreach ($result as $row) {
                 echo "<div class='movie_info'>";
                 echo "<h2>" . htmlspecialchars($row['title']) . "</h2>";
-                echo "<p>Cena: " . htmlspecialchars($row['price']) . " zł</p>";
+                echo "<p>Cena: " . htmlspecialchars($row['mPri'] + $row['hPri']) . " zł</p>";
                 echo "<p>Sala: " . htmlspecialchars($row['cols']) . "x" . htmlspecialchars($row['rows']) . "</p>";
                 echo "</div>";
             }
