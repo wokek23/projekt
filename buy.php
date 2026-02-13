@@ -119,6 +119,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <label for="ticket_child">Bilet ulgowy:</label>
             <input onchange="update()" require type="number" id="ticket_child" name="ticket_child" min="0" max="50" value="0"><br><br>
 
+            <div id="total-price">Cena: 0.00 zł</div>
+
             <button type="submit" id="buy-btn" class="buy-btn">Kup bilet</button>
         </form>
         
@@ -145,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (selectedSchedule) {
                 const basePrice = selectedSchedule.mPri + selectedSchedule.hPri;
                 const totalPrice = (adultInput.value * basePrice) + (childInput.value * basePrice * 0.85);
-                console.log("Aktualna cena: " + totalPrice.toFixed(2) + " zł");
+                document.getElementById('total-price').textContent = "Cena: " + totalPrice.toFixed(2) + " zł";
             }
 
             adultInput.max = maxSeats;
@@ -159,5 +161,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 buy_btn.textContent = "Kup bilet";
             }
         }
+
+        setInterval(update, 5000);
+        update();
     </script>
 <?php include 'includes/footer.php'; ?>
