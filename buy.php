@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <label for="ticket_child">Bilet ulgowy:</label>
             <input onchange="update()" require type="number" id="ticket_child" name="ticket_child" min="0" max="50" value="0"><br><br>
 
-            <button type="submit" class="buy-btn">Kup bilet</button>
+            <button type="submit" id="buy-btn" class="buy-btn">Kup bilet</button>
         </form>
         
         <?php
@@ -128,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 echo "<h2>" . htmlspecialchars($row['title']) . "</h2>";
                 echo "<p>Cena: " . htmlspecialchars($row['mPri'] + $row['hPri']) . " zł</p>";
                 echo "<p>Sala: " . htmlspecialchars($row['cols']) . "x" . htmlspecialchars($row['rows']) . "</p>";
+                echo "<script>const maxSeats = " . $row['cols'] * $row['rows'] . ";</script>";
                 echo "</div>";
             }
         ?>
@@ -138,12 +139,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const timeSelect = document.getElementById('time');
             const adultInput = document.getElementById('ticket_adult');
             const childInput = document.getElementById('ticket_child');
+            const buy_btn = document.getElementById('buy-btn');
             const selectedSchedule = scheduleData.find(s => s.id == timeSelect.value);
             
             if (selectedSchedule) {
                 const basePrice = selectedSchedule.mPri + selectedSchedule.hPri;
                 const totalPrice = (adultInput.value * basePrice) + (childInput.value * basePrice * 0.85);
                 console.log("Aktualna cena: " + totalPrice.toFixed(2) + " zł");
+            }
+
+            adultInput.max = maxSeats;
+            childInput.max = maxSeats;
+
+            if (parseInt(adultInput.value) + parseInt(childInput.value) > maxSeats) {
+                buy_btn.disabled = true;
+                buy_btn.textContent = "Sala jest pełna (max " + maxSeats + ")";
+            } else {
+                buy_btn.disabled = false;
+                buy_btn.textContent = "Kup bilet";
             }
         }
     </script>
